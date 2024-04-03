@@ -2,3 +2,8 @@ nibabel
 scikit-learn
 keras
 tensorflow
+vtk
+ipywidgets
+itkwidgets
+matplotlib
+segmentation-models-3D
