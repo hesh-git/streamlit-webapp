@@ -73,20 +73,20 @@ with st.container():
             store_data(input_path, temp_data_directory)
             data_has_changed = True
 
-            # Visualize input image
-            path_to_file = glob('data/*/*.nii')
-            if path_to_file:
-                with st.container():
-                    reader = vtk.vtkNIFTIImageReader()
-                    reader.SetFileName(path_to_file[0])
-                    reader.Update()
+            # # Visualize input image
+            # path_to_file = glob('data/*/*.nii')
+            # if path_to_file:
+            #     with st.container():
+            #         reader = vtk.vtkNIFTIImageReader()
+            #         reader.SetFileName(path_to_file[0])
+            #         reader.Update()
 
-                    view_width = 1800
-                    view_height = 800
+            #         view_width = 1800
+            #         view_height = 800
 
-                    snippet = embed.embed_snippet(views=view(reader.GetOutput()))
-                    html = embed.html_template.format(title="", snippet=snippet)
-                    components.html(html, width=view_width, height=view_height)
+            #         snippet = embed.embed_snippet(views=view(reader.GetOutput()))
+            #         html = embed.html_template.format(title="", snippet=snippet)
+            #         components.html(html, width=view_width, height=view_height)
 
             with st.spinner('Please wait...'):
                 # Preprocess section
