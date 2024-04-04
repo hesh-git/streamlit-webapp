@@ -6,7 +6,7 @@ from utils import does_zip_have_nifti, store_data, get_random_string
 from preprocess import preprocess
 from model import predict
 import io
-import vtk
+# import vtk
 from ipywidgets import embed
 import streamlit.components.v1 as components
 from itkwidgets import view
