@@ -7,3 +7,4 @@ ipywidgets
 itkwidgets
 matplotlib
 segmentation-models-3D==1.0.6
+protobuf==3.20.3
