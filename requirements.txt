@@ -6,4 +6,4 @@ vtk
 ipywidgets
 itkwidgets
 matplotlib
-segmentation-models-3D
+segmentation-models-3D==1.0.6
