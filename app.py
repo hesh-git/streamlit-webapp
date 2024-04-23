@@ -246,69 +246,69 @@ elif selected == '🛠️ Tool':
                 #         html = embed.html_template.format(title="", snippet=snippet)
                 #         components.html(html, width=view_width, height=view_height)
 
-            with st.spinner('Please wait...'):
-                # Preprocess section
-                input = preprocess(temp_data_directory)
-                flair = input[0][:,:,:,0]
-                t1ce = input[0][:,:,:,1]
-                t2 = input[0][:,:,:,2]
-                t1 = input[0][:,:,:,3]
+                with st.spinner('Please wait...'):
+                    # Preprocess section
+                    input = preprocess(temp_data_directory)
+                    flair = input[0][:,:,:,0]
+                    t1ce = input[0][:,:,:,1]
+                    t2 = input[0][:,:,:,2]
+                    t1 = input[0][:,:,:,3]
 
-                # Send to model and get prediction
-                prediction_seg, prediction_edge, original_prediction_seg = predict(input)
-                print('Original Prediction Seg:', original_prediction_seg.shape)
+                    # Send to model and get prediction
+                    prediction_seg, prediction_edge, original_prediction_seg = predict(input)
+                    print('Original Prediction Seg:', original_prediction_seg.shape)
 
-            deleteTempData()
+                deleteTempData()
 
-            if prediction_seg is not None and prediction_edge is not None:
+                if prediction_seg is not None and prediction_edge is not None:
+                        
+                    st.success('Prediction done.')
                     
-                st.success('Prediction done.')
-                
-                # Visualize output image
+                    # Visualize output image
 
-                st.write('---')
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.markdown("<h5 style='text-align: center;'>T1</h5>", unsafe_allow_html=True)
-                    slice_index_1 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t1")
-                    display_slice(t1, slice_index_1)
-                with col2:
-                    st.markdown("<h5 style='text-align: center;'>T2</h5>", unsafe_allow_html=True)
-                    slice_index_2 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t2")
-                    display_slice(t2, slice_index_2)
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.markdown("<h5 style='text-align: center;'>T1CE</h5>", unsafe_allow_html=True)
-                    slice_index_3 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t1ce")
-                    display_slice(t1ce, slice_index_3)
-                with col2:
-                    st.markdown("<h5 style='text-align: center;'>FLAIR</h5>", unsafe_allow_html=True)
-                    slice_index_4 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="flair")
-                    display_slice(flair, slice_index_4)
-                col1, col2 = st.columns(2)
-                with col1:
-                    st.write('##### Segmentation Result')
-                    slice_index_5 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="seg")
-                    # display_slice(original_prediction_seg[0,:,:,:,1], slice_index_5)
+                    st.write('---')
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown("<h5 style='text-align: center;'>T1</h5>", unsafe_allow_html=True)
+                        slice_index_1 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t1")
+                        display_slice(t1, slice_index_1)
+                    with col2:
+                        st.markdown("<h5 style='text-align: center;'>T2</h5>", unsafe_allow_html=True)
+                        slice_index_2 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t2")
+                        display_slice(t2, slice_index_2)
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.markdown("<h5 style='text-align: center;'>T1CE</h5>", unsafe_allow_html=True)
+                        slice_index_3 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t1ce")
+                        display_slice(t1ce, slice_index_3)
+                    with col2:
+                        st.markdown("<h5 style='text-align: center;'>FLAIR</h5>", unsafe_allow_html=True)
+                        slice_index_4 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="flair")
+                        display_slice(flair, slice_index_4)
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        st.write('##### Segmentation Result')
+                        slice_index_5 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="seg")
+                        # display_slice(original_prediction_seg[0,:,:,:,1], slice_index_5)
 
-                # Download results
+                    # Download results
 
-                    with io.BytesIO() as buffer:
-                        np.save(buffer, prediction_seg)  # Save the array to the buffer
-                        st.download_button(
-                            label="Download Segmentation Mask (.npy)",
-                            data=buffer.getvalue(),
-                            file_name="neurowhiz_result_seg.npy",
-                            mime="application/octet-stream"  # Set appropriate MIME type
-                        )
-                    with io.BytesIO() as buffer:
-                        np.save(buffer, prediction_edge)
-                        st.download_button(
-                            label="Download Edge Mask (.npy)",
-                            data=buffer.getvalue(),
-                            file_name="neurowhiz_result_edge.npy",
-                            mime="application/octet-stream"  # Set appropriate MIME type
-                        )
+                        with io.BytesIO() as buffer:
+                            np.save(buffer, prediction_seg)  # Save the array to the buffer
+                            st.download_button(
+                                label="Download Segmentation Mask (.npy)",
+                                data=buffer.getvalue(),
+                                file_name="neurowhiz_result_seg.npy",
+                                mime="application/octet-stream"  # Set appropriate MIME type
+                            )
+                        with io.BytesIO() as buffer:
+                            np.save(buffer, prediction_edge)
+                            st.download_button(
+                                label="Download Edge Mask (.npy)",
+                                data=buffer.getvalue(),
+                                file_name="neurowhiz_result_edge.npy",
+                                mime="application/octet-stream"  # Set appropriate MIME type
+                            )
 
 
                 else:
