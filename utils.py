@@ -4,10 +4,12 @@ import streamlit as st
 import random
 import string
 import numpy as np
+import shutil
 
 MAX_SIZE = 300000000 # 300MB
 
 temp_zip_folder = './temp/'
+data_folder_path = './data/'
 temp_zip_file = temp_zip_folder + 'data.zip'
 
 if not os.path.isdir('./temp'):
@@ -48,3 +50,8 @@ def store_data(file, temp_data_directory, temporary_location=temp_zip_file):
 def get_random_string(length):
     result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
     return result_str
+
+def deleteTempData():
+    if os.path.exists(data_folder_path):
+        shutil.rmtree(data_folder_path)
+    return True
