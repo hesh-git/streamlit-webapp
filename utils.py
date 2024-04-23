@@ -48,3 +48,24 @@ def store_data(file, temp_data_directory, temporary_location=temp_zip_file):
 def get_random_string(length):
     result_str = ''.join(random.choice(string.ascii_letters) for i in range(length))
     return result_str
+
+def centered_rounded_image(image_path, width, round_radius):
+    st.markdown(
+        f"""
+        <style>
+        .centered-image {{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }}
+        .rounded-image {{
+            border-radius: {round_radius}px;
+            overflow: hidden;
+        }}
+        </style>
+        <div class="centered-image rounded-image">
+            <img src="{image_path}" width="{width}" style="display:block;">
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
