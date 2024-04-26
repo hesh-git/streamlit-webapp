@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from glob import glob
 import os
-from utils import does_zip_have_nifti, store_data, get_random_string, centered_rounded_image, deleteTempData
+from utils import does_zip_have_nifti, store_data, get_random_string, centered_rounded_image, deleteTempData, create_seg_image
 from preprocess import preprocess
 from model import predict
 import io
@@ -289,7 +289,31 @@ elif selected == '🛠️ Tool':
                     with col1:
                         st.write('##### Segmentation Result')
                         slice_index_5 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="seg")
-                        # display_slice(original_prediction_seg[0,:,:,:,1], slice_index_5)
+                        seg_image = create_seg_image(original_prediction_seg)
+                        print('Seg Image:', seg_image.shape)
+                        # display_result(seg_image, slice_index_5)
+
+                        # Save a slice as a jpg image
+                        plt.imsave('seg_image.jpg', seg_image[:,:,slice_index_5])
+                        # Show the image in browser
+                        st.image('seg_image.jpg', width=130)
+                        # Delete image from storage
+                        os.remove('seg_image.jpg')
+
+                    with col2:
+                        st.write('##### Edge Detection Result')
+                        slice_index_6 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="edge")
+                        print("==================================")
+                        print('Edge Image:', prediction_edge.shape)
+                        # edge_image = create_seg_image(prediction_edge)
+                        # display_result(edge_image, slice_index_6)
+
+                        # Save a slice as a jpg image
+                        plt.imsave('edge_image.jpg', prediction_edge[:,:,slice_index_6])
+                        # Show the image in browser
+                        st.image('edge_image.jpg', width=130)
+                        # Delete image from storage
+                        os.remove('edge_image.jpg')
 
                     # Download results
 

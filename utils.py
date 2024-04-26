@@ -76,3 +76,9 @@ def centered_rounded_image(image_path, width, round_radius):
         """,
         unsafe_allow_html=True,
     )
+
+
+def create_seg_image(prediction_seg):
+    test_prediction_argmax=np.argmax(prediction_seg, axis=4)[0,:,:,:]
+    return test_prediction_argmax
+
