@@ -209,7 +209,78 @@ if selected == '🏠 Home':
     st.markdown("</div>", unsafe_allow_html=True)
     
 elif selected == '📚 How To Use':
-    st.write('Instructions on how to use the tool')
+    st.title('Unleash the Power of Precision: A User Guide for 3D Brain Tumor Segmentation and Edge Detection')
+
+    st.markdown("""
+    Welcome! This comprehensive guide empowers you to harness the capabilities of our innovative web application for 3D brain tumor segmentation and edge detection. This tool plays a vital role in medical image analysis, aiding in the localization, characterization, and treatment planning of brain tumors.
+
+    **What is NeuroWhiz tool?**
+
+    """)    
+
+    # Steps to Use the Tool
+    st.header('Steps to Use the Tool:')
+
+    st.markdown("""
+    1. **Navigate to the 'Tool' Page:** Within the web app, locate the designated section for tumor segmentation and edge detection.
+    """)
+
+    st.image('images/step1.gif')
+                
+    st.markdown("""
+    2. **Prepare Your Input Data:**
+    * Ensure you have four separate modalities of 3D MRI images in NIfTI (.nii) format (T1, T2, T1ce, and FLAIR).
+    * **Create a Single Zip Archive:** Combine all four NIfTI images into a single compressed zip folder for efficient upload.
+    * Make sure each of 4 .nii files ends with following strings: '_t1.nii', '_t2.nii', '_t1ce.nii', '_flair.nii'.
+    * Sample zip folder inputs can be found [here](https://drive.google.com/drive/folders/1scIsgHcb5ykqyp9uK3XOyGNN-3O6aPW-?usp=drive_link)
+    """)
+
+    st.image('images/step2.png', caption='Example of input zip file content')
+                
+    st.markdown("""
+    3. **Upload Your Data:**
+    * Locate the designated upload area on the tool page.
+    * Click the "Browse Files" button or its equivalent.
+    * Select your prepared zip folder containing the four MRI images.
+    * Click "Upload" or a similar action button to initiate the process.
+    """)
+
+    st.image('images/step3.gif')
+                
+    st.markdown("""
+    4. **Wait for the Results:** The tool will automatically analyze your uploaded data. Be patient, as processing complex medical images might take a few minutes.
+
+    5. **Visualize and Download Results:**
+
+    """)
+
+    # # Visualization (Screenshots or Animated GIF)
+    # st.image('output_visualization.png', caption='Example of Segmentation and Edge Detection Results')
+
+    st.markdown("""
+    * Once processing is complete, the tool will present you with the segmentation mask and edge mask visualizations.
+    * In addition to that, as XAI is integrated, you can also visualize the saliency maps to understand the model's decision-making process. 
+    * You'll be able to examine these visualizations directly within the web app to gain insights into the tumor's location and boundaries.
+    * Download options might also be available to save the masks for further analysis on your local machine.
+
+    """)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image('images/step5-1.png', caption='This is the visualization of input MRI modalities', use_column_width=True)
+    with col2:
+        st.image('images/step5-2.png', caption='This is the visualization of corresponding segmentation and edge mask outputs', use_column_width=True)
+        
+
+    # Additional Tips and Considerations
+    st.header("""
+    **Additional Tips and Considerations:**
+
+    * **Data Quality:** For optimal results, ensure the uploaded MRI images are high quality and free from artifacts (distortions or errors).
+    * **Interpretation:** While the tool provides segmentation and edge detection results, consulting with a qualified medical professional for diagnosis and treatment planning remains crucial.
+    * **Ongoing Development:** Stay tuned! We're constantly striving to enhance our tool's capabilities and address user feedback.
+                
+    """)
     
 elif selected == '🛠️ Tool':
     st.title("NeuroWhiz")
