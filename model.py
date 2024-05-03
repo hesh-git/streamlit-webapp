@@ -126,4 +126,4 @@ def predict(test_img_input):
     # print(test_prediction_argmax.shape)
     # print(test_prediction_edge_argmax.shape)
 
-    return test_prediction_argmax, test_prediction_edge_argmax, test_prediction_seg
+    return test_prediction_argmax, test_prediction_edge_argmax, test_prediction_seg, model
