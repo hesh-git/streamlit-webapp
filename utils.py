@@ -5,6 +5,7 @@ import random
 import string
 import numpy as np
 import shutil
+import io
 
 MAX_SIZE = 300000000 # 300MB
 
@@ -81,4 +82,31 @@ def centered_rounded_image(image_path, width, round_radius):
 def create_seg_image(prediction_seg):
     test_prediction_argmax=np.argmax(prediction_seg, axis=4)[0,:,:,:]
     return test_prediction_argmax
+
+
+def download_seg_results(original_folder_path, file_name, key):
+  # Create a BytesIO object to store the zip file in memory
+  with io.BytesIO() as zip_buffer:
+    # Create a ZipFile object using the BytesIO object
+    with zipfile.ZipFile(zip_buffer, mode="w") as zip_file:
+      # Iterate through all files in the original folder
+      for root, _, files in os.walk(original_folder_path):
+        for filename in files:
+          # Get the full path of the file
+          file_path = os.path.join(root, filename)
+
+          # Add the file to the zip archive with arcname preserving folder structure
+          zip_file.write(file_path, arcname=os.path.relpath(file_path, original_folder_path))
+
+    # Set the download button content as the zip file in memory
+    st.download_button(
+        label="Download Results",
+        data=zip_buffer.getvalue(),
+        file_name=file_name,
+        mime="application/zip",
+        key=key
+    )
+
+
+
 
