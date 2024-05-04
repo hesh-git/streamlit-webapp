@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from glob import glob
 import os
-from utils import does_zip_have_nifti, store_data, get_random_string, centered_rounded_image, deleteTempData, create_seg_image
+from utils import does_zip_have_nifti, store_data, get_random_string, centered_rounded_image, deleteTempData, create_seg_image, download_seg_results
 from preprocess import preprocess
 from model import predict
 import io
@@ -16,7 +16,7 @@ import nibabel as nib
 from sklearn.preprocessing import MinMaxScaler
 from matplotlib import pyplot as plt
 from streamlit_option_menu import option_menu
-
+from np_to_jpg import convert_np_to_color_jpeg
 
 
 prediction_seg, prediction_edge = None, None
@@ -26,24 +26,6 @@ def load_lottieurl(url):
     if r.status_code != 200:
         return None
     return r.json()
-
-def download_results():
-    with io.BytesIO() as buffer:
-        np.save(buffer, prediction_seg)  # Save the array to the buffer
-        st.download_button(
-            label="Download Segmentation Mask (.npy)",
-            data=buffer.getvalue(),
-            file_name="neurowhiz_result_seg.npy",
-            mime="application/octet-stream"  # Set appropriate MIME type
-        )
-    with io.BytesIO() as buffer:
-        np.save(buffer, prediction_edge)
-        st.download_button(
-            label="Download Edge Mask (.npy)",
-            data=buffer.getvalue(),
-            file_name="neurowhiz_result_edge.npy",
-            mime="application/octet-stream"  # Set appropriate MIME type
-        )
 
 def display_slice(data, index):
     """Displays a single 2D slice of the 3D MRI scan image.
@@ -386,25 +368,16 @@ elif selected == '🛠️ Tool':
                         # Delete image from storage
                         os.remove('edge_image.jpg')
 
+                    # Convert numpy predictions to jpeg images
+                    convert_np_to_color_jpeg(seg_image, 'seg_images')
+                    convert_np_to_color_jpeg(prediction_edge, 'edge_images')
+
                     # Download results
-
-                        with io.BytesIO() as buffer:
-                            np.save(buffer, prediction_seg)  # Save the array to the buffer
-                            st.download_button(
-                                label="Download Segmentation Mask (.npy)",
-                                data=buffer.getvalue(),
-                                file_name="neurowhiz_result_seg.npy",
-                                mime="application/octet-stream"  # Set appropriate MIME type
-                            )
-                        with io.BytesIO() as buffer:
-                            np.save(buffer, prediction_edge)
-                            st.download_button(
-                                label="Download Edge Mask (.npy)",
-                                data=buffer.getvalue(),
-                                file_name="neurowhiz_result_edge.npy",
-                                mime="application/octet-stream"  # Set appropriate MIME type
-                            )
-
+                    col1, col2 = st.columns(2)
+                    with col1:
+                        download_seg_results('seg_images', 'neurowhiz_segment_results.zip', 'seg_dwn_btn')
+                    with col2:
+                        download_seg_results('edge_images', 'neurowhiz_edge_results.zip', 'edg_dwn_btn')
 
                 else:
                     st.error('Prediction failed.')
