@@ -2,15 +2,17 @@ import numpy as np
 import nibabel as nib
 from sklearn.preprocessing import MinMaxScaler
 # from keras.utils import to_categorical
+from glob import glob
+import os
 
 def preprocess(temp_data_directory):
 
     scaler = MinMaxScaler()
 
-    flair_path = temp_data_directory + 'BraTS19_2013_2_1_flair.nii'
-    t1_path = temp_data_directory + 'BraTS19_2013_2_1_t1.nii'
-    t2_path = temp_data_directory + 'BraTS19_2013_2_1_t2.nii'
-    t1ce_path = temp_data_directory + 'BraTS19_2013_2_1_t1ce.nii'
+    flair_path = glob(os.path.normpath('data/*/*_flair.nii'))[0]
+    t1_path = glob(os.path.normpath('data/*/*_t1.nii'))[0]
+    t2_path = glob(os.path.normpath('data/*/*_t2.nii'))[0]
+    t1ce_path = glob(os.path.normpath('data/*/*_t1ce.nii'))[0]  
     
     temp_image_t2=nib.load(t2_path).get_fdata()
     temp_image_t2=scaler.fit_transform(temp_image_t2.reshape(-1, temp_image_t2.shape[-1])).reshape(temp_image_t2.shape)
