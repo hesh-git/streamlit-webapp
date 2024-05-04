@@ -138,75 +138,217 @@ with st.sidebar:
     )
     
 if selected == '🏠 Home':
-    # Custom CSS styles for the homepage
+    
+    # Apply custom CSS styles for the dark theme and improved design
     st.markdown(
         """
         <style>
+        /* Set the dark mode theme for the application */
+        body {
+            background-color: #121212;
+            color: #ffffff;
+            font-family: 'Segoe UI', 'Helvetica', 'Arial', sans-serif;
+        }
+        /* Header styles */
         .header {
             padding: 20px;
             background-color: #1a535c;
             color: #ffffff;
             text-align: center;
+            margin-bottom: 20px;
         }
+        /* Logo styles */
+        .logo {
+            display: block;
+            margin: 0 auto;
+            width: 150px;
+            border-radius: 50%;
+        }
+        /* Content styles */
         .content {
-            padding: 20px;
+
+            background-color: #333;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            margin-bottom: 20px;
         }
-        .info {
-            font-size: 18px;
-            margin-top: 20px;
+        /* Styles for headings and text */
+        h1, h2 {
+            color: #4ecdc4;
         }
+        /* Button styles */
         .button {
             display: inline-block;
             padding: 10px 20px;
             background-color: #4ecdc4;
-            color: #ffffff;
+            color: #121212;
             font-size: 16px;
             font-weight: bold;
             border: none;
             border-radius: 5px;
             cursor: pointer;
-            transition: background-color 0.3s;
+            transition: background-color 0.3s, color 0.3s;
         }
         .button:hover {
             background-color: #2b7a78;
+            color: #ffffff;
         }
+        /* Image styles */
         .image {
             width: 100%;
+            border-radius: 10px;
             margin-top: 20px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
         }
         </style>
         """,
         unsafe_allow_html=True
     )
 
-    # Header
-    st.markdown("<h1>Brain Tumor Segmentation</h1>", unsafe_allow_html=True)
+    # Header with logo and title
+
+    # st.image("images/neurowhiz-high-resolution-logo-transparent.png", caption="", use_column_width=True)
+    logo_path = 'images/neurowhiz-high-resolution-logo-transparent.png'  # Update the path to your logo image
+    st.image(logo_path, use_column_width="never", width=400, output_format="auto")
+    # st.markdown("<img class='logo' src='images/neurowhiz_logo.png' alt='Neurowhiz Logo' />", unsafe_allow_html=True)
+    st.markdown("<h1>Neurowhiz: Accurate Brain Tumor Segmentation with Edge Detection</h1>", unsafe_allow_html=True)
     st.markdown("</div>", unsafe_allow_html=True)
-    
-    #center image
-    
-    #st.image("images/brain50.jpg", use_column_width=False)
 
     # Main content
     st.markdown("<div class='content'>", unsafe_allow_html=True)
-    st.write("Welcome to our Brain Tumor Segmentation application!")
-    st.write("Brain tumor segmentation is a crucial task in medical image analysis, as it allows clinicians to identify and localize tumors within brain MRI scans.")
-    st.write("Our application utilizes state-of-the-art deep learning techniques to automatically segment brain tumors from MRI images.")
-    st.write("Below are some example images of brain tumors and their segmentations:")
-    # Placeholder images
-    
-    st.image("images/Home.jpeg", caption="MRI Image with Tumor", use_column_width=True)
+    st.write("Welcome to Neurowhiz, our Brain Tumor Segmentation and Edge Detection application!")
+    st.write("""
+            Are you tired of the manual diagnosis of brain tumor subregions and boundries through MRIs? Introducing NeuroWhiz - a state-of-the-art tool that automates the brain tumor segmentation and edge detection. Our model, not only detects tumor subregions but also the boudries of tumor subregions that help to radiologists and neurosurgions to make their diagnosis and decision making more confidenly and accurately.
+With NeuroWhiz, you'll benefit from the latest explainability techniques that provide insight into the decision-making process of our AI model. Our NeuroWhiz application takes 3D multi modal MRI image as an input and segment the brain tumor with suregions while detecting the tumor boundries too. Our user-friendly interface ensures easy use and saving you time. Trust NeuroWhiz to provide you with faster, more accurate diagnoses of brain tumors a crucial role in clinical care.
+            
+            """)
+    st.write("")
+    st.write("")
+    st.write("")
+    st.write("")
     
 
-    # Info
-    st.markdown("<div class='info'>", unsafe_allow_html=True)
+    st.image("images/diagram4.png", caption="", width=600, use_column_width=True)
+
+
+    st.markdown("<h2>The Power of NeuroWhiz</h2>", unsafe_allow_html=True)
+    st.write("""
+            Analyzing Brain MRI has never been easier. Our state-of-the-art framework takes in an multi modal MRI and segment the brain tumor and detect the edges.
+But NeuroWhiz isn't just about convenience - it's also about accuracy. Our deep learning model leverages the power of self supervised learning and uses
+a unique dual-decoder architecture, focusing on edge identification and segmentation accuracy
+enhancement. Utilizing a dual-decoder 3D-Unet model, we prioritize accuracy and fine-grained
+details in tumour segmentation and introduce an additional tumour edge detection task as well
+to the model, aiming to move beyond traditional single-decoder approaches. Below are the some results that got from NeuroWhiz.
+
+             """)
+    
+    st.write("")
+    st.write("")
+    st.write("")
+    
+
+    st.image("images/Home.jpeg", caption="", width=600, use_column_width=True)
+
+    st.markdown("<h2>NeuroWhiz Incorparate Explainability too..</h2>", unsafe_allow_html=True)
+
+    st.write("""
+            Analyzing Brain MRI has never been easier. Our state-of-the-art framework takes in an multi modal MRI and segment the brain tumor and detect the edges.
+But NeuroWhiz isn't just about convenience - it's also about accuracy. Our deep learning model leverages the power of self supervised learning and uses
+a unique dual-decoder architecture, focusing on edge identification and segmentation accuracy
+enhancement. Utilizing a dual-decoder 3D-Unet model, we prioritize accuracy and fine-grained
+details in tumour segmentation and introduce an additional tumour edge detection task as well
+to the model, aiming to move beyond traditional single-decoder approaches. Below are the some results that got from NeuroWhiz.
+
+             """)
+    
+    st.write("")
+    st.write("")
+    st.write("")
+    
+    st.image("images/XAI2.png", caption="", width=600, use_column_width=True)
+
+    # Info section with button
+    st.markdown("<div class='content'>", unsafe_allow_html=True)
     st.write("For more information about brain tumor segmentation and our research project, click the button below.")
     if st.button("Learn More", key="learn_more_button"):
         # Add code to navigate to the about page
         pass
     st.markdown("</div>", unsafe_allow_html=True)
 
-    st.markdown("</div>", unsafe_allow_html=True)
+
+
+
+
+#     # Custom CSS styles for the homepage
+#     st.markdown(
+#         """
+#         <style>
+#         .header {
+#             padding: 20px;
+#             background-color: #1a535c;
+#             color: #ffffff;
+#             text-align: center;
+#         }
+#         .content {
+#             padding: 20px;
+#         }
+#         .info {
+#             font-size: 18px;
+#             margin-top: 20px;
+#         }
+#         .button {
+#             display: inline-block;
+#             padding: 10px 20px;
+#             background-color: #4ecdc4;
+#             color: #ffffff;
+#             font-size: 16px;
+#             font-weight: bold;
+#             border: none;
+#             border-radius: 5px;
+#             cursor: pointer;
+#             transition: background-color 0.3s;
+#         }
+#         .button:hover {
+#             background-color: #2b7a78;
+#         }
+#         .image {
+#             width: 100%;
+#             margin-top: 20px;
+#         }
+#         </style>
+#         """,
+#         unsafe_allow_html=True
+#     )
+
+#     # Header
+#     st.markdown("<h1>Brain Tumor Segmentation</h1>", unsafe_allow_html=True)
+#     st.markdown("</div>", unsafe_allow_html=True)
+    
+#     #center image
+    
+#     #st.image("images/brain50.jpg", use_column_width=False)
+
+#     # Main content
+#     st.markdown("<div class='content'>", unsafe_allow_html=True)
+#     st.write("Welcome to our Brain Tumor Segmentation application!")
+#     st.write("Brain tumor segmentation is a crucial task in medical image analysis, as it allows clinicians to identify and localize tumors within brain MRI scans.")
+#     st.write("Our application utilizes state-of-the-art deep learning techniques to automatically segment brain tumors from MRI images.")
+#     st.write("Below are some example images of brain tumors and their segmentations:")
+#     # Placeholder images
+    
+#     st.image("images/Home.jpeg", caption="MRI Image with Tumor", use_column_width=True)
+    
+
+#     # Info
+#     st.markdown("<div class='info'>", unsafe_allow_html=True)
+#     st.write("For more information about brain tumor segmentation and our research project, click the button below.")
+#     if st.button("Learn More", key="learn_more_button"):
+#         # Add code to navigate to the about page
+#         pass
+#     st.markdown("</div>", unsafe_allow_html=True)
+
+#     st.markdown("</div>", unsafe_allow_html=True)
+
+
     
 elif selected == '📚 How To Use':
     st.write('Instructions on how to use the tool')
