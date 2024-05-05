@@ -6,7 +6,7 @@ import string
 import numpy as np
 import shutil
 import io
-
+import time
 MAX_SIZE = 300000000 # 300MB
 
 temp_zip_folder = './temp/'
@@ -31,9 +31,18 @@ def is_zip_oversized(path, max_size=MAX_SIZE):
         return True
     return False
 
-def store_data(file, temp_data_directory, temporary_location=temp_zip_file):
-    st.warning('Loading data from zip.')
+    with st.status("Downloading data...", expanded=True) as status:
+                    st.write("Searching for data...")
+                    time.sleep(2)
+                    st.write("Found URL.")
+                    time.sleep(1)
+                    st.write("Downloading data...")
+                    time.sleep(1)
+                    status.update(label="Download complete!", state="complete", expanded=False)
 
+def store_data(file, temp_data_directory, temporary_location=temp_zip_file):
+    st.toast(':violet[Loading data from zip]', icon='⏳')
+    time.sleep(4)
     with open(temporary_location, 'wb') as out:
         out.write(file.getbuffer())
     
@@ -44,7 +53,7 @@ def store_data(file, temp_data_directory, temporary_location=temp_zip_file):
 
     with zipfile.ZipFile(temporary_location) as zip_ref:        
         zip_ref.extractall(temp_data_directory + '/')
-        st.success('The file is uploaded')
+        st.success('MRI Data loaded successfully ✅')
 
     return True
 
@@ -108,5 +117,16 @@ def download_seg_results(original_folder_path, file_name, key):
     )
 
 
+def display_images_from_folder(folder_path):
+    # List all files in the folder
+    image_names = os.listdir(folder_path)
 
+    # Filter out only image files (if needed)
+    image_names = [filename for filename in image_names if filename.endswith((".png", ".jpg", ".jpeg"))]
 
+    # Display images with separators
+    cols = st.columns(6)
+    for i, image_name in enumerate(image_names):
+        cols[i].image(os.path.join(folder_path, image_name), caption=f"Encoder Layer {i+1}", width=150)
+    
+    
