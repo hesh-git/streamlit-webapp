@@ -6,6 +6,7 @@ from utils import does_zip_have_nifti, store_data, get_random_string, centered_r
 from preprocess import preprocess
 from model import predict
 import io
+import time
 # import vtk
 from ipywidgets import embed
 import streamlit.components.v1 as components
@@ -115,7 +116,7 @@ with st.sidebar:
     selected = option_menu(
         menu_title= '🧠NeuroWhiz',
         menu_icon= None,
-        options= ['🏠 Home', '📚 How To Use', '🛠️ Tool'],
+        options= ['🏠 Home', '📚 How To Use', '🛠️ Segmentation Tool'],
         default_index= 0, 
     )
     
@@ -264,9 +265,9 @@ elif selected == '📚 How To Use':
                 
     """)
     
-elif selected == '🛠️ Tool':
-    st.title("NeuroWhiz")
-    st.subheader("Automatic 3D Brain Tumor Segmentation and Edge Detection Tool")
+elif selected == '🛠️ Segmentation Tool':
+    st.title("🧠NeuroWhiz")
+    st.subheader("Automatic 3D Brain Tumor Segmentation and Edge Detection Tool", divider=True)
 
     # st_lottie(lottie_file, height=1000, key='coding')
 
@@ -275,7 +276,6 @@ elif selected == '🛠️ Tool':
 
     # Upload section
     with st.container():
-        st.write('---')
         if input_path:
             if does_zip_have_nifti(input_path):
                 data_path = get_random_string(15)
@@ -299,7 +299,9 @@ elif selected == '🛠️ Tool':
                 #         html = embed.html_template.format(title="", snippet=snippet)
                 #         components.html(html, width=view_width, height=view_height)
 
-                with st.spinner('Please wait...'):
+                
+
+                with st.spinner('Please wait for Segmentation Results...'):
                     # Preprocess section
                     input = preprocess(temp_data_directory)
                     flair = input[0][:,:,:,0]
@@ -315,33 +317,34 @@ elif selected == '🛠️ Tool':
 
                 if prediction_seg is not None and prediction_edge is not None:
                         
-                    st.success('Prediction done.')
+                    # st.toast('Prediction done', icon='✅')
+                    st.toast(":green[Prediction done]", icon='✅')
                     
                     # Visualize output image
 
-                    st.write('---')
+                    st.subheader('Visualization of Segmentation and Edge Detection Results', divider='grey')
                     col1, col2 = st.columns(2)
                     with col1:
                         st.markdown("<h5 style='text-align: center;'>T1</h5>", unsafe_allow_html=True)
-                        slice_index_1 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t1")
+                        slice_index_1 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="t1")
                         display_slice(t1, slice_index_1)
                     with col2:
                         st.markdown("<h5 style='text-align: center;'>T2</h5>", unsafe_allow_html=True)
-                        slice_index_2 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t2")
+                        slice_index_2 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="t2")
                         display_slice(t2, slice_index_2)
                     col1, col2 = st.columns(2)
                     with col1:
                         st.markdown("<h5 style='text-align: center;'>T1CE</h5>", unsafe_allow_html=True)
-                        slice_index_3 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="t1ce")
+                        slice_index_3 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="t1ce")
                         display_slice(t1ce, slice_index_3)
                     with col2:
                         st.markdown("<h5 style='text-align: center;'>FLAIR</h5>", unsafe_allow_html=True)
-                        slice_index_4 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="flair")
+                        slice_index_4 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="flair")
                         display_slice(flair, slice_index_4)
                     col1, col2 = st.columns(2)
                     with col1:
                         st.write('##### Segmentation Result')
-                        slice_index_5 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="seg")
+                        slice_index_5 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="seg")
                         seg_image = create_seg_image(original_prediction_seg)
                         print('Seg Image:', seg_image.shape)
                         # display_result(seg_image, slice_index_5)
@@ -355,7 +358,7 @@ elif selected == '🛠️ Tool':
 
                     with col2:
                         st.write('##### Edge Detection Result')
-                        slice_index_6 = st.slider("Select Slice", min_value=0, max_value=127, value=0, key="edge")
+                        slice_index_6 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="edge")
                         print("==================================")
                         print('Edge Image:', prediction_edge.shape)
                         # edge_image = create_seg_image(prediction_edge)
@@ -368,15 +371,7 @@ elif selected == '🛠️ Tool':
                         # Delete image from storage
                         os.remove('edge_image.jpg')
                         
-                    #XAI Visualization
                     
-                    st.toast('Generating XAI Visualizations', icon='⏳')
-                    heatmaps = []
-                    heatmaps = generate_xai(input[0], model)
-                    st.toast('XAI Visualizations Generated', icon='✅')
-                    
-
-            
                     # Convert numpy predictions to jpeg images
                     convert_np_to_color_jpeg(seg_image, 'seg_images')
                     convert_np_to_color_jpeg(prediction_edge, 'edge_images')
@@ -387,10 +382,16 @@ elif selected == '🛠️ Tool':
                         download_seg_results('seg_images', 'neurowhiz_segment_results.zip', 'seg_dwn_btn')
                     with col2:
                         download_seg_results('edge_images', 'neurowhiz_edge_results.zip', 'edg_dwn_btn')
-
-                    st.write('---')
-                    st.write('##### XAI Visualization')
-                    display_images_from_folder(folder_path="XAI_GCAM/XAI") 
+                        
+                    #XAI Visualization
+                    time.sleep(2)
+                    st.toast(':violet[Generating XAI Visualizations]', icon='⏳')
+                    heatmaps = []
+                    with st.spinner('Please wait for XAI Results...'):
+                        heatmaps = generate_xai(input[0], model)
+                        st.toast(':green[XAI Visualizations Generated]', icon='✅')
+                        st.subheader('XAI Visualization')
+                        display_images_from_folder(folder_path="XAI_GCAM/XAI") 
                 else:
                     st.error('Prediction failed.')
             else:
