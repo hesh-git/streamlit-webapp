@@ -18,8 +18,9 @@ def generate_xai(mri_vol,s_model):
     #LAYER_NAME = '1'
     #LAYER_NAME = 'conv3d_50' #conv3d_10
     XAI="GCAM"
-
-    layers = ['conv3d','conv3d_1', 'conv3d_2', 'conv3d_3', 'conv3d_4', 'conv3d_5','conv3d_6','conv3d_7','conv3d_8','conv3d_9']
+    
+    generated_xai = []
+    layers = ['conv3d_1', 'conv3d_2', 'conv3d_3', 'conv3d_4', 'conv3d_5']
     for i in layers:
         IMG_SHAPE = (128, 128, 128)
 
@@ -29,16 +30,18 @@ def generate_xai(mri_vol,s_model):
         model = get_xai_segmentation_model(s_model, LAYER_NAME)
         
         # Sample MRI case
-        ID = "IMG_10"
+        ID = "XAI"
         SLICE_ID = 77
         CLASS_ID = 2 #np.argmax(predictions[0])
         TUMOR_LABEL="all" # for grad-CAM
         io_imgs = mri_vol
         io_imgs = np.expand_dims(io_imgs, axis=0)
 
-        im_orig = io_imgs[:,:,:,SLICE_ID,0] # 2D FLAIR
-
-
-        get_neuroxai_cnn(ID, model, io_imgs, CLASS_ID, SLICE_ID,LAYER_NAME, MODALITY, 
-                        XAI_MODE, XAI, DIMENSION, CLASS_IDs, TUMOR_LABEL, 
-                        SAVE_RESULTS=True, SAVE_PATH="OurXAI_Seg_GCAM")
+        heatmap_xai = get_neuroxai_cnn(ID, model, io_imgs, CLASS_ID, SLICE_ID,LAYER_NAME, MODALITY, 
+                                                    XAI_MODE, XAI, DIMENSION, CLASS_IDs, TUMOR_LABEL, 
+                                                    SAVE_RESULTS=True, SAVE_PATH="XAI_GCAM")
+        generated_xai.append(heatmap_xai)
+        
+    print(len(generated_xai))
+    return generated_xai
+        

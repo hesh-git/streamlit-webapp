@@ -2,7 +2,7 @@ import streamlit as st
 import requests
 from glob import glob
 import os
-from utils import does_zip_have_nifti, store_data, get_random_string, centered_rounded_image, deleteTempData, create_seg_image
+from utils import does_zip_have_nifti, store_data, get_random_string, centered_rounded_image, deleteTempData, create_seg_image, display_images_from_folder
 from preprocess import preprocess
 from model import predict
 import io
@@ -315,10 +315,14 @@ elif selected == '🛠️ Tool':
                         os.remove('edge_image.jpg')
                         
                     #XAI Visualization
-                    print('Input:', input[0].shape)
-                    generate_xai(input[0], model)
-                    print('XAI Done')
+                    
+                    st.toast('Generating XAI Visualizations', icon='⏳')
+                    heatmaps = []
+                    heatmaps = generate_xai(input[0], model)
+                    st.toast('XAI Visualizations Generated', icon='✅')
+                    
 
+            
                     # Download results
 
                     with io.BytesIO() as buffer:
@@ -337,15 +341,14 @@ elif selected == '🛠️ Tool':
                             file_name="neurowhiz_result_edge.npy",
                             mime="application/octet-stream"  # Set appropriate MIME type
                         )
-
+                        
+                    st.write('---')
+                    st.write('##### XAI Visualization')
+                    display_images_from_folder(folder_path="XAI_GCAM/XAI") 
 
                 else:
                     st.error('Prediction failed.')
             else:
-                st.warning('Zip folder does not have folders with NII files.')
-
-
-
-            
+                st.warning('Zip folder does not have folders with NII files.')    
             
 st.markdown("<p class='footer'>Developed with ❤️ by Team NeuroWhiz </p>", unsafe_allow_html=True)

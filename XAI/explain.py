@@ -99,15 +99,7 @@ def get_neuroxai(ID, model, io_imgs, CLASS_ID=0, SLICE_ID=77, LAYER_NAME=None,
         if TUMOR_LABEL=="all":
             CLASS_ID="all"
 
-        plt.imsave("{}/{}/{}_{}_{}_gcam.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID), gradcam, CMAP="jet")
-        # plt.imsave("{}/{}/{}_{}_{}_gcam_overlay.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID), gradcam_overlay)
-        # plt.imsave("{}/{}/{}_{}_{}_MRI.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID), im_orig, CMAP=plt.cm.gray)
-
-        
-        # if XAI_MODE=="segmentation":
-            # plt.imsave("{}/{}/{}_{}_{}_pred.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID), prediction)
-            #plt.imsave("{}/{}/{}_{}_{}_pred_overlay.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID), pred_overlay)
-            # plt.imsave("{}/{}/{}_{}_{}_truth.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID), pred_data_m[:,:,SLICE_ID])
+        plt.imsave("{}_{}_{}_gcam.png".format(SAVE_PATH, LAYER_NAME, CLASS_ID), gradcam, CMAP="jet")
 
 
 # Visualization and save of a single NeuroXAI method
@@ -152,18 +144,7 @@ def visualize_neuroxai_cnn(ID, model, io_imgs, grads, CLASS_ID=0, SLICE_ID=77,
             LAYER_NAME = get_last_layer(model).name
         show_gray_image(heatmap, TITLE=XAI+'-'+LAYER_NAME+'-'+str(CLASS_ID), AX=plt.subplot(ROWS, COLS, 2)) # CMAP=plt.cm.gray
     show_image(overlay, TITLE=XAI+' Overlay', AX=plt.subplot(ROWS, COLS, 3)) 
-
-    # if XAI_MODE=="segmentation":
-        # Predict the tumor segmentation
-        # _, prediction_3ch = np.squeeze(model(io_imgs)) # model prediction 
-        # prediction = np.argmax(prediction_3ch, axis=-1)
-        # prediction = (prediction[:,:,SLICE_ID] == CLASS_ID).astype(np.uint8)
-        # if CLASS_ID!= 0:
-        #     prediction[prediction>0] = CLASS_ID
-
-        # pred_overlay = overlay_pred(io_imgs[0,:,:,SLICE_ID,modality_dict[MODALITY]], prediction)
-        # show_image(prediction, TITLE='Prediction', AX=plt.subplot(ROWS, COLS, 4))
-        # show_image(pred_overlay, TITLE='Prediction Overlay', AX=plt.subplot(ROWS, COLS, 5))
+    
     
     # Save the results
     if SAVE_RESULTS:
@@ -177,16 +158,13 @@ def visualize_neuroxai_cnn(ID, model, io_imgs, grads, CLASS_ID=0, SLICE_ID=77,
         
         # Save 2D heatmaps
         if XAI=="GCAM":
-            plt.imsave("{}/{}/{}_{}_{}_{}_{}.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID, MODALITY, XAI), heatmap, cmap="jet")
+            plt.imsave("{}/{}/{}_{}_{}_{}.png".format(SAVE_PATH, ID,LAYER_NAME, CLASS_ID, MODALITY, XAI), heatmap, cmap="jet")
         else:
-            plt.imsave("{}/{}/{}_{}_{}_{}_{}.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID, MODALITY, XAI), heatmap, cmap=plt.cm.gray)
+            plt.imsave("{}/{}/{}_{}_{}_{}.png".format(SAVE_PATH, ID,LAYER_NAME, CLASS_ID, MODALITY, XAI), heatmap, cmap=plt.cm.gray)
             
-        # plt.imsave("{}/{}/{}_{}_{}_{}_{}_overlay.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID, MODALITY, XAI), overlay)
-        # plt.imsave("{}/{}/{}_{}_{}_{}_MRI.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID, MODALITY), im_orig, cmap=plt.cm.gray)
-        
-        #if XAI_MODE=="segmentation":
-            # plt.imsave("{}/{}/{}_{}_{}_{}_{}_pred.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID, MODALITY, XAI), prediction)
-            # plt.imsave("{}/{}/{}_{}_{}_{}_{}_pred_overlay.png".format(SAVE_PATH, ID, ID, LAYER_NAME, CLASS_ID, MODALITY, XAI), pred_overlay)
+    else:
+        return heatmap
+            
         
 def get_neuroxai_cnn(ID, model, io_imgs, CLASS_ID=0, SLICE_ID=77, LAYER_NAME=None,
                      MODALITY="FLAIR", XAI_MODE="classification", XAI="GCAM", 
@@ -226,6 +204,6 @@ def get_neuroxai_cnn(ID, model, io_imgs, CLASS_ID=0, SLICE_ID=77, LAYER_NAME=Non
         grads = get_grad_cam(model, io_imgs, CLASS_ID, LAYER_NAME, MODALITY, XAI_MODE, DIMENSION)
 
     # Visualize the saliency map
-    visualize_neuroxai_cnn(ID, model, io_imgs, grads, CLASS_ID, SLICE_ID, LAYER_NAME, MODALITY, 
+    return visualize_neuroxai_cnn(ID, model, io_imgs, grads, CLASS_ID, SLICE_ID, LAYER_NAME, MODALITY, 
                            XAI_MODE, XAI, DIMENSION, TUMOR_LABEL, SAVE_RESULTS, SAVE_PATH)
 

@@ -82,3 +82,15 @@ def create_seg_image(prediction_seg):
     test_prediction_argmax=np.argmax(prediction_seg, axis=4)[0,:,:,:]
     return test_prediction_argmax
 
+def display_images_from_folder(folder_path):
+    # List all files in the folder
+    image_names = os.listdir(folder_path)
+
+    # Filter out only image files (if needed)
+    image_names = [filename for filename in image_names if filename.endswith((".png", ".jpg", ".jpeg"))]
+
+    # Display images with separators
+    cols = st.columns(6)
+    for i, image_name in enumerate(image_names):
+        cols[i].image(os.path.join(folder_path, image_name), caption=f"Encoder Layer {i+1}", width=150)
+
