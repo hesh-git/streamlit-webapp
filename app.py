@@ -254,6 +254,7 @@ original ground truth segmentation masks. (f) is the predictions of NeuroWhiz.
 
     st.write("""
            Incorporating explainability into AI systems for the medical domain enhances trust, promotes ethical practices, facilitates knowledge generation, improves error detection, empowers patients, and ensures regulatory compliance.
+             NeuroWhiz is using a post-hoc explainability approach(executes after a prediction is made) with Grad-CAM. Our network learns feature information in a global to local or a top-down manner. When moving through the encoder layers, its attention is focused towards the center of the tumor. This observation is also in line with the human visual perception.
              """)
     
     st.write("<br>", unsafe_allow_html=True)
