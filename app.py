@@ -51,8 +51,10 @@ temp_data_directory = ''
 lottie_file = load_lottieurl('https://assets10.lottiefiles.com/private_files/lf30_4FGi6N.json')
 data_key = 'has_data'
 data_has_changed = False
+logo_path = 'images/neurowhiz-high-resolution-logo-transparent-resized.png'  # Update the path to your logo image
+
  
-st.set_page_config(page_title='NeuroWhiz', page_icon='🧠', layout='wide')
+st.set_page_config(page_title='NeuroWhiz', page_icon='images/page-icon.png', layout='wide')
 # local_css("style/style.css")
 # Custom CSS styles
 st.markdown(
@@ -121,7 +123,7 @@ st.markdown(
 with st.sidebar:
     selected = option_menu(
         menu_title= '🧠NeuroWhiz',
-        menu_icon= None,
+        menu_icon= 'image/page-icon.png',
         options= ['🏠 Home', '📚 How To Use', '🛠️ Segmentation Tool'],
         default_index= 0, 
     )
@@ -196,7 +198,6 @@ if selected == '🏠 Home':
     # Header with logo and title
 
     # st.image("images/neurowhiz-high-resolution-logo-transparent.png", caption="", use_column_width=True)
-    logo_path = 'images/neurowhiz-high-resolution-logo-transparent-resized.png'  # Update the path to your logo image
     st.image(logo_path, use_column_width="never", width=400, output_format="auto")
     # st.markdown("<img class='logo' src='images/neurowhiz_logo.png' alt='Neurowhiz Logo' />", unsafe_allow_html=True)
     st.markdown("<h1>NeuroWhiz: Accurate Brain Tumor Segmentation with Edge Detection</h1>", unsafe_allow_html=True)
@@ -253,10 +254,25 @@ original ground truth segmentation masks. (f) is the predictions of NeuroWhiz.
         # Add code to navigate to the about page
         pass
     st.markdown("</div>", unsafe_allow_html=True)
-
     
 elif selected == '📚 How To Use':
-    st.title('Unleash the Power of Precision: A User Guide for 3D Brain Tumor Segmentation and Edge Detection')
+
+    # Apply custom CSS styles for the dark theme and improved design
+    st.markdown(
+        """
+        <style>
+        /* Styles for headings and text */
+        h1, h2 {
+            color: #4ecdc4;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.image(logo_path, use_column_width="never", width=200, output_format="auto")
+
+    st.markdown('<h1>Unleash the Power of Precision: A User Guide for 3D Brain Tumor Segmentation and Edge Detection</h1>', unsafe_allow_html=True)
 
     st.markdown("""
     Welcome! This comprehensive guide empowers you to harness the capabilities of our innovative web application for 3D brain tumor segmentation and edge detection. This tool plays a vital role in medical image analysis, aiding in the localization, characterization, and treatment planning of brain tumors.
@@ -314,9 +330,13 @@ elif selected == '📚 How To Use':
 
     col1, col2 = st.columns(2)
     with col1:
-        st.image('images/step5-1.png', caption='This is the visualization of input MRI modalities', use_column_width=True)
+        st.image('images/step5-1.jpg', caption='This is the visualization of input MRI modalities', use_column_width=True)
     with col2:
-        st.image('images/step5-2.png', caption='This is the visualization of corresponding segmentation and edge mask outputs', use_column_width=True)
+        st.image('images/step5-2.jpg', caption='This is the visualization of corresponding segmentation and edge mask outputs', use_column_width=True)
+
+    col1, col2 = st.columns(2)
+    with col1:
+        st.image('images/step5-3.jpg', caption='This is the visualization of XAI outputs', use_column_width=True)
         
 
     # Additional Tips and Considerations
@@ -330,6 +350,22 @@ elif selected == '📚 How To Use':
     """)
     
 elif selected == '🛠️ Segmentation Tool':
+
+     # Apply custom CSS styles for the dark theme and improved design
+    st.markdown(
+        """
+        <style>
+        /* Styles for headings and text */
+        h1, h2 {
+            color: #4ecdc4;
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+    st.image(logo_path, use_column_width="never", width=200, output_format="auto")
+
     st.title("Brain Tumor Segmentation and Edge Detection Tool")
     st.divider()
     input_path = st.file_uploader('Upload a single zip folder containing 3D MRI images of all 4 modalities in .nii format')
