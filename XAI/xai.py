@@ -39,7 +39,7 @@ def generate_xai(mri_vol,s_model):
 
         heatmap_xai = get_neuroxai_cnn(ID, model, io_imgs, CLASS_ID, SLICE_ID,LAYER_NAME, MODALITY, 
                                                     XAI_MODE, XAI, DIMENSION, CLASS_IDs, TUMOR_LABEL, 
-                                                    SAVE_RESULTS=True, SAVE_PATH="XAI_GCAM")
+                                                    SAVE_RESULTS=True, SAVE_PATH="XAI_Results")
         generated_xai.append(heatmap_xai)
         
     print(len(generated_xai))

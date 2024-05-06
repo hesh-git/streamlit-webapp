@@ -35,9 +35,15 @@ def display_slice(data, index):
         data (np.ndarray): The 3D MRI scan image data.
         index (int): The index of the slice to display (0-based).
     """
+    
+    slice = data[:, :, index]
+    col1, col2, col3 = st.columns([3,2,3])  # Adjust width ratios as needed
 
-    slice = data[:, :, index]  # Extract the desired slice
-    st.image(slice, caption=f"Slice {index+1} of 128")  # Display with informative caption
+    # Add content to center column
+    with col2:
+        st.image(slice, caption=f"Slice {index+1} of 128")  # Display with informative caption
+    
+
 
 global temp_data_directory
 temp_data_directory = ''
@@ -266,11 +272,8 @@ elif selected == '📚 How To Use':
     """)
     
 elif selected == '🛠️ Segmentation Tool':
-    st.title("🧠NeuroWhiz")
-    st.subheader("Automatic 3D Brain Tumor Segmentation and Edge Detection Tool", divider=True)
-
-    # st_lottie(lottie_file, height=1000, key='coding')
-
+    st.title("Brain Tumor Segmentation and Edge Detection Tool")
+    st.divider()
     input_path = st.file_uploader('Upload a single zip folder containing 3D MRI images of all 4 modalities in .nii format')
     data_path = ""
 
@@ -322,7 +325,7 @@ elif selected == '🛠️ Segmentation Tool':
                     
                     # Visualize output image
 
-                    st.subheader('Visualization of Segmentation and Edge Detection Results', divider='grey')
+                    st.subheader('Visualization of Segmentation and Edge Detection Results', divider='blue')
                     col1, col2 = st.columns(2)
                     with col1:
                         st.markdown("<h5 style='text-align: center;'>T1</h5>", unsafe_allow_html=True)
@@ -332,6 +335,9 @@ elif selected == '🛠️ Segmentation Tool':
                         st.markdown("<h5 style='text-align: center;'>T2</h5>", unsafe_allow_html=True)
                         slice_index_2 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="t2")
                         display_slice(t2, slice_index_2)
+                        
+                    st.markdown("<hr>", unsafe_allow_html=True)
+                    
                     col1, col2 = st.columns(2)
                     with col1:
                         st.markdown("<h5 style='text-align: center;'>T1CE</h5>", unsafe_allow_html=True)
@@ -341,6 +347,9 @@ elif selected == '🛠️ Segmentation Tool':
                         st.markdown("<h5 style='text-align: center;'>FLAIR</h5>", unsafe_allow_html=True)
                         slice_index_4 = st.slider("Select Slice", min_value=0, max_value=127, value=77, key="flair")
                         display_slice(flair, slice_index_4)
+                    
+                    st.markdown("<br>", unsafe_allow_html=True)
+                        
                     col1, col2 = st.columns(2)
                     with col1:
                         st.write('##### Segmentation Result')
@@ -351,8 +360,12 @@ elif selected == '🛠️ Segmentation Tool':
 
                         # Save a slice as a jpg image
                         plt.imsave('seg_image.jpg', seg_image[:,:,slice_index_5])
+                        
+                        col7, col8, col9 = st.columns([2,3,2]) 
                         # Show the image in browser
-                        st.image('seg_image.jpg', width=130)
+                        with col8:
+                            st.image('seg_image.jpg', width=130)
+                            download_seg_results('seg_images', 'neurowhiz_segment_results.zip', 'seg_dwn_btn')
                         # Delete image from storage
                         os.remove('seg_image.jpg')
 
@@ -367,7 +380,10 @@ elif selected == '🛠️ Segmentation Tool':
                         # Save a slice as a jpg image
                         plt.imsave('edge_image.jpg', prediction_edge[:,:,slice_index_6])
                         # Show the image in browser
-                        st.image('edge_image.jpg', width=130)
+                        col7, col8, col9 = st.columns([2,3,2]) 
+                        with col8:
+                            st.image('edge_image.jpg', width=130)
+                            download_seg_results('edge_images', 'neurowhiz_edge_results.zip', 'edg_dwn_btn')
                         # Delete image from storage
                         os.remove('edge_image.jpg')
                         
@@ -375,13 +391,6 @@ elif selected == '🛠️ Segmentation Tool':
                     # Convert numpy predictions to jpeg images
                     convert_np_to_color_jpeg(seg_image, 'seg_images')
                     convert_np_to_color_jpeg(prediction_edge, 'edge_images')
-
-                    # Download results
-                    col1, col2 = st.columns(2)
-                    with col1:
-                        download_seg_results('seg_images', 'neurowhiz_segment_results.zip', 'seg_dwn_btn')
-                    with col2:
-                        download_seg_results('edge_images', 'neurowhiz_edge_results.zip', 'edg_dwn_btn')
                         
                     #XAI Visualization
                     time.sleep(2)
@@ -390,8 +399,9 @@ elif selected == '🛠️ Segmentation Tool':
                     with st.spinner('Please wait for XAI Results...'):
                         heatmaps = generate_xai(input[0], model)
                         st.toast(':green[XAI Visualizations Generated]', icon='✅')
+                        st.markdown("<br>", unsafe_allow_html=True)
                         st.subheader('XAI Visualization')
-                        display_images_from_folder(folder_path="XAI_GCAM/XAI") 
+                        display_images_from_folder(folder_path="XAI_Results/XAI") 
                 else:
                     st.error('Prediction failed.')
             else:

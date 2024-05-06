@@ -125,7 +125,7 @@ def display_images_from_folder(folder_path):
     image_names = [filename for filename in image_names if filename.endswith((".png", ".jpg", ".jpeg"))]
 
     # Display images with separators
-    cols = st.columns(6)
+    cols = st.columns(5)
     for i, image_name in enumerate(image_names):
         cols[i].image(os.path.join(folder_path, image_name), caption=f"Encoder Layer {i+1}", width=150)
     
