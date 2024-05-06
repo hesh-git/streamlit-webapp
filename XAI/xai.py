@@ -20,7 +20,8 @@ def generate_xai(mri_vol,s_model):
     XAI="GCAM"
     
     generated_xai = []
-    layers = ['conv3d_1', 'conv3d_2', 'conv3d_3', 'conv3d_4', 'conv3d_5']
+    # layers = ['conv3d_1', 'conv3d_2', 'conv3d_3', 'conv3d_4', 'conv3d_5']
+    layers = ['conv3d_1']
     for i in layers:
         IMG_SHAPE = (128, 128, 128)
 
