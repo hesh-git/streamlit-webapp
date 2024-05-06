@@ -9,6 +9,6 @@ segmentation-models-3D==1.0.6
 protobuf==3.20.3
 streamlit-option-menu==0.3.12
 tensorflow-addons==0.21.0
-opencv-python==4.9.0.80
-# opencv-python-headless==4.8.0.76
+# opencv-python==4.9.0.80
+opencv-python-headless==4.8.0.76
 scikit-image==0.21.0
