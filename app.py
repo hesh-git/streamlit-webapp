@@ -200,8 +200,8 @@ if selected == '🏠 Home':
     st.markdown("<div class='content'>", unsafe_allow_html=True)
     st.write("Welcome to NeuroWhiz, our Brain Tumor Segmentation and Edge Detection application!")
     st.write("""
-            Are you tired of the manual diagnosis of brain tumor subregions and boundries through MRIs? Introducing NeuroWhiz - a state-of-the-art tool that automates the brain tumor segmentation and edge detection. Our model, not only detects tumor subregions but also the boudries of tumor subregions that help to radiologists and neurosurgions to make their diagnosis and decision making more confidenly and accurately.
-With NeuroWhiz, you'll benefit from the latest explainability techniques that provide insight into the decision-making process of our AI model. Our NeuroWhiz application takes 3D multi modal MRI image as an input and segment the brain tumor with suregions while detecting the tumor boundries too. Our user-friendly interface ensures easy use and saving you time. Trust NeuroWhiz to provide you with faster, more accurate diagnoses of brain tumors a crucial role in clinical care.
+            Are you tired of manually diagnosing brain tumor subregions and boundaries through MRIs? Introducing NeuroWhiz—a state-of-the-art tool that automates brain tumor segmentation and edge detection. Our model not only identifies tumor subregions but also delineates the boundaries, providing radiologists and neurosurgeons with more confidence and accuracy in their diagnoses and decision-making.
+NeuroWhiz leverages the latest explainability techniques to offer insights into the decision-making process of our AI model. The NeuroWhiz application processes 3D multimodal MRI images and segments brain tumors, including their subregions, while also detecting the tumor boundaries. Its user-friendly interface ensures ease of use, saving you time. Trust NeuroWhiz for faster, more precise brain tumor diagnoses.
             
             """)
 
@@ -213,13 +213,9 @@ With NeuroWhiz, you'll benefit from the latest explainability techniques that pr
 
     st.markdown("<h2>The Power of NeuroWhiz</h2>", unsafe_allow_html=True)
     st.write("""
-            Analyzing Brain MRI has never been easier. Our state-of-the-art framework takes in an multi modal MRI and segment the brain tumor and detect the edges.
-But NeuroWhiz isn't just about convenience - it's also about accuracy. Our deep learning model leverages the power of self supervised learning and uses
-a unique dual-decoder architecture, focusing on edge identification and segmentation accuracy
-enhancement. Utilizing a dual-decoder 3D-Unet model, we prioritize accuracy and fine-grained
-details in tumour segmentation and introduce an additional tumour edge detection task as well
-to the model, aiming to move beyond traditional single-decoder approaches. Below are the some results that got from NeuroWhiz.
-
+            Analyzing brain MRIs has never been easier. Our advanced framework takes multimodal MRI scans and segments brain tumors while detecting their edges with precision.
+NeuroWhiz isn't just about convenience—it's about accuracy. Our deep learning model harnesses the power of self-supervised learning and employs a unique dual-decoder architecture 
+             that emphasizes edge identification and enhanced segmentation accuracy. By using a dual-decoder 3D-Unet model, we prioritize accuracy and fine-grained detail in tumor segmentation. Additionally, our model includes a tumor edge detection task, moving beyond traditional single-decoder methods. Below are some results from NeuroWhiz.
              """)
     
     st.write("<br>", unsafe_allow_html=True)
