@@ -487,15 +487,15 @@ elif selected == '🛠️ Segmentation Tool':
                     convert_np_to_color_jpeg(prediction_edge, 'edge_images')
                         
                     #XAI Visualization
-                    time.sleep(2)
-                    st.toast(':violet[Generating XAI Visualizations]', icon='⏳')
-                    heatmaps = []
-                    with st.spinner('Please wait for XAI Results...'):
-                        heatmaps = generate_xai(input[0], model)
-                        st.toast(':green[XAI Visualizations Generated]', icon='✅')
-                        st.markdown("<br>", unsafe_allow_html=True)
-                        st.subheader('XAI Visualization')
-                        display_images_from_folder(folder_path="XAI_Results/XAI") 
+                    # time.sleep(2)
+                    # st.toast(':violet[Generating XAI Visualizations]', icon='⏳')
+                    # heatmaps = []
+                    # with st.spinner('Please wait for XAI Results...'):
+                    #     heatmaps = generate_xai(input[0], model)
+                    #     st.toast(':green[XAI Visualizations Generated]', icon='✅')
+                    #     st.markdown("<br>", unsafe_allow_html=True)
+                    #     st.subheader('XAI Visualization')
+                    #     display_images_from_folder(folder_path="XAI_Results/XAI") 
                 else:
                     st.error('Prediction failed.')
             else:
